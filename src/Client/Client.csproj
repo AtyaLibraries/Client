@@ -1,0 +1,37 @@
+<Project Sdk="Atya.Build.Sdk">
+
+  <PropertyGroup>
+    <AssemblyName>Atya.Http.Client</AssemblyName>
+    <PackageId>Atya.Http.Client</PackageId>
+    <RootNamespace>Atya.Http.Client</RootNamespace>
+    <IsPackable>true</IsPackable>
+    <Authors>Atya</Authors>
+    <Company>Atya</Company>
+    <Copyright>Copyright (c) 2026 Atya</Copyright>
+    <Description>Typed HttpClient helpers that return Atya Result values, map ProblemDetails failures, and propagate correlation.</Description>
+    <PackageTags>dotnet;http;client;results;problemdetails</PackageTags>
+    <RepositoryUrl>https://github.com/AtyaLibraries/Client</RepositoryUrl>
+    <PackageProjectUrl>$(RepositoryUrl)</PackageProjectUrl>
+    <!-- Set PackageValidationBaselineVersion to the last stable package version after first stable release. -->
+    <!-- <PackageValidationBaselineVersion>1.0.0</PackageValidationBaselineVersion> -->
+
+    <!-- MinVer derives the version from git tags (e.g. tag `v1.2.3` -> 1.2.3). -->
+    <MinVerTagPrefix>v</MinVerTagPrefix>
+    <MinVerDefaultPreReleaseIdentifiers>alpha.0</MinVerDefaultPreReleaseIdentifiers>
+    <NoWarn Condition="'$(RepositoryUrl)' != '' And $(RepositoryUrl.Contains('__'))">$(NoWarn);CA1707;SA1300</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\" Visible="false" />
+  </ItemGroup>
+
+  <ItemGroup Label="Runtime dependency">
+    <PackageReference Include="Atya.Errors.ProblemDetails" />
+    <PackageReference Include="Atya.Foundation.Guards" />
+    <PackageReference Include="Atya.Foundation.Results" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.Http" />
+  </ItemGroup>
+
+</Project>

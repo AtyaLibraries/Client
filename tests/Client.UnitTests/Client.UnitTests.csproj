@@ -1,0 +1,9 @@
+<Project Sdk="Atya.Build.Sdk">
+
+  <!-- Framework, analyzers, and default test packages are provided by Atya.Build.Sdk. -->
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Client\Client.csproj" />
+  </ItemGroup>
+
+</Project>

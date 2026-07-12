@@ -1,0 +1,19 @@
+<Project>
+    <PropertyGroup>
+        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+        <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+    </PropertyGroup>
+    <ItemGroup Label="Runtime">
+        <PackageVersion Include="Atya.Errors.ProblemDetails" Version="1.1.0" />
+        <PackageVersion Include="Atya.Foundation.Guards" Version="1.0.2" />
+        <PackageVersion Include="Atya.Foundation.Results" Version="1.1.0" />
+        <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.9" />
+        <PackageVersion Include="Microsoft.Extensions.Http" Version="10.0.9" />
+    </ItemGroup>
+    <ItemGroup Label="Testing and samples">
+        <PackageVersion Include="Microsoft.Extensions.DependencyInjection" Version="10.0.9" />
+    </ItemGroup>
+    <ItemGroup Label="Benchmarking">
+        <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
+    </ItemGroup>
+</Project>
