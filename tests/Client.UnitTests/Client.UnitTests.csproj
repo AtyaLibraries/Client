@@ -3,6 +3,7 @@
   <!-- Framework, analyzers, and default test packages are provided by Atya.Build.Sdk. -->
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
     <ProjectReference Include="..\..\src\Client\Client.csproj" />
   </ItemGroup>
 
