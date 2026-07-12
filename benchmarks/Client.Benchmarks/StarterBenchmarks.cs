@@ -7,7 +7,7 @@ namespace Atya.Http.Client.Benchmarks;
 /// Benchmarks for HTTP result handling.
 /// </summary>
 [MemoryDiagnoser]
-public class StarterBenchmarks : IDisposable
+public class StarterBenchmarks
 {
     private AtyaHttpClient _client = null!;
     private Uri _requestUri = null!;
@@ -34,15 +34,6 @@ public class StarterBenchmarks : IDisposable
         using var request = new HttpRequestMessage(HttpMethod.Get, _requestUri);
         var result = await _client.SendAsync(request).ConfigureAwait(false);
         return result.IsSuccess;
-    }
-
-    /// <summary>
-    /// Releases benchmark resources.
-    /// </summary>
-    public void Dispose()
-    {
-        _client?.Dispose();
-        GC.SuppressFinalize(this);
     }
 
     private sealed class BenchmarkHandler : HttpMessageHandler
