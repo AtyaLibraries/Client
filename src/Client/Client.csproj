@@ -5,7 +5,7 @@
     <PackageId>Atya.Http.Client</PackageId>
     <RootNamespace>Atya.Http.Client</RootNamespace>
     <IsPackable>true</IsPackable>
-    <Authors>Atya</Authors>
+    <Authors>Arsen Asulyan</Authors>
     <Company>Atya</Company>
     <Copyright>Copyright (c) 2026 Atya</Copyright>
     <Description>Typed HttpClient helpers that return Atya Result values, map ProblemDetails failures, and propagate correlation.</Description>
