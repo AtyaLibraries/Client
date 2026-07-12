@@ -12,7 +12,7 @@ public sealed class AtyaHttpClientTests
     [Fact]
     public async Task SendAsync_Should_Return_Success_For_Success_Status()
     {
-        using var client = CreateClient(new HttpResponseMessage(HttpStatusCode.NoContent));
+        var client = CreateClient(new HttpResponseMessage(HttpStatusCode.NoContent));
         using var request = new HttpRequestMessage(HttpMethod.Delete, "https://example.test/items/1");
 
         var result = await client.SendAsync(request, TestContext.Current.CancellationToken);
@@ -27,7 +27,7 @@ public sealed class AtyaHttpClientTests
         {
             ReasonPhrase = "Missing",
         };
-        using var client = CreateClient(response);
+        var client = CreateClient(response);
         using var request = new HttpRequestMessage(HttpMethod.Get, "https://example.test/items/42");
 
         var result = await client.SendAsync(request, TestContext.Current.CancellationToken);
@@ -53,7 +53,7 @@ public sealed class AtyaHttpClientTests
         {
             Content = JsonContent.Create(problemDetails),
         };
-        using var client = CreateClient(response);
+        var client = CreateClient(response);
         using var request = new HttpRequestMessage(HttpMethod.Put, "https://example.test/items/42");
 
         var result = await client.SendAsync(request, TestContext.Current.CancellationToken);
@@ -62,6 +62,55 @@ public sealed class AtyaHttpClientTests
         result.Error.Code.Should().Be("atya.test.changed");
         result.Error.Kind.Should().Be(ErrorKind.Conflict);
         result.Error.Message.Should().Be("The item was changed.");
+    }
+
+    [Fact]
+    public async Task SendAsync_Should_Rebuild_Validation_Details_From_ProblemDetails_Errors_Extension()
+    {
+        var problemDetails = new ProblemDetails
+        {
+            Status = 400,
+            Title = "Bad Request",
+            Detail = "Validation failed.",
+        };
+        problemDetails.Extensions[ProblemDetailsExtensionNames.ErrorCode] = "atya.test.validation";
+        problemDetails.Extensions[ProblemDetailsExtensionNames.Errors] = new Dictionary<string, object[]>
+        {
+            ["email"] =
+            [
+                new
+                {
+                    propertyName = "email",
+                    message = "Email is required.",
+                    errorCode = "atya.test.email_required",
+                },
+            ],
+            ["name"] =
+            [
+                new
+                {
+                    propertyName = "name",
+                    message = "Name is too long.",
+                    errorCode = "atya.test.name_too_long",
+                },
+            ],
+        };
+        using var response = new HttpResponseMessage(HttpStatusCode.BadRequest)
+        {
+            Content = JsonContent.Create(problemDetails),
+        };
+        var client = CreateClient(response);
+        using var request = new HttpRequestMessage(HttpMethod.Post, "https://example.test/customers");
+
+        var result = await client.SendAsync(request, TestContext.Current.CancellationToken);
+
+        result.IsSuccess.Should().BeFalse();
+        result.Error.Kind.Should().Be(ErrorKind.Validation);
+        result.Error.Details.Should().HaveCount(2);
+        result.Error.Details.Should().ContainEquivalentOf(
+            new Error("atya.test.email_required", "Email is required.", "email", kind: ErrorKind.Validation));
+        result.Error.Details.Should().ContainEquivalentOf(
+            new Error("atya.test.name_too_long", "Name is too long.", "name", kind: ErrorKind.Validation));
     }
 
     [Fact]
@@ -76,7 +125,7 @@ public sealed class AtyaHttpClientTests
         {
             Content = JsonContent.Create(problemDetails),
         };
-        using var client = CreateClient(response);
+        var client = CreateClient(response);
         using var request = new HttpRequestMessage(HttpMethod.Get, "https://example.test/reports");
 
         var result = await client.SendAsync(request, TestContext.Current.CancellationToken);
@@ -93,7 +142,7 @@ public sealed class AtyaHttpClientTests
         {
             Content = JsonContent.Create(new ProblemDetails { Status = 422 }),
         };
-        using var client = CreateClient(response);
+        var client = CreateClient(response);
         using var request = new HttpRequestMessage(HttpMethod.Post, "https://example.test/items");
 
         var result = await client.SendAsync(request, TestContext.Current.CancellationToken);
@@ -111,7 +160,7 @@ public sealed class AtyaHttpClientTests
         {
             Content = new StringContent("not-json"),
         };
-        using var client = CreateClient(response);
+        var client = CreateClient(response);
         using var request = new HttpRequestMessage(HttpMethod.Get, "https://example.test/failure");
 
         var result = await client.SendAsync(request, TestContext.Current.CancellationToken);
@@ -149,7 +198,7 @@ public sealed class AtyaHttpClientTests
         {
             CorrelationIdAccessor = static () => " ",
         };
-        using var client = new AtyaHttpClient(httpClient, Options.Create(options));
+        var client = new AtyaHttpClient(httpClient, Options.Create(options));
         using var request = new HttpRequestMessage(HttpMethod.Get, "https://example.test/");
 
         await client.SendAsync(request, TestContext.Current.CancellationToken);
@@ -183,7 +232,7 @@ public sealed class AtyaHttpClientTests
         {
             Content = JsonContent.Create(new SampleDto("Ada")),
         };
-        using var client = CreateClient(response);
+        var client = CreateClient(response);
         using var request = new HttpRequestMessage(HttpMethod.Get, "https://example.test/user");
 
         var result = await client.SendJsonAsync<SampleDto>(request, TestContext.Current.CancellationToken);
@@ -199,7 +248,7 @@ public sealed class AtyaHttpClientTests
         {
             Content = new StringContent("null"),
         };
-        using var client = CreateClient(response);
+        var client = CreateClient(response);
         using var request = new HttpRequestMessage(HttpMethod.Get, "https://example.test/user");
 
         var result = await client.SendJsonAsync<SampleDto>(request, TestContext.Current.CancellationToken);
@@ -222,7 +271,7 @@ public sealed class AtyaHttpClientTests
         {
             Content = JsonContent.Create(problemDetails),
         };
-        using var client = CreateClient(response);
+        var client = CreateClient(response);
         using var request = new HttpRequestMessage(HttpMethod.Get, "https://example.test/user");
 
         var result = await client.SendJsonAsync<SampleDto>(request, TestContext.Current.CancellationToken);
@@ -235,7 +284,7 @@ public sealed class AtyaHttpClientTests
     [Fact]
     public async Task SendAsync_Should_Throw_When_Request_Is_Null()
     {
-        using var client = CreateClient(new HttpResponseMessage(HttpStatusCode.OK));
+        var client = CreateClient(new HttpResponseMessage(HttpStatusCode.OK));
 
         var act = async () => await client.SendAsync(null!, TestContext.Current.CancellationToken);
 
@@ -245,7 +294,7 @@ public sealed class AtyaHttpClientTests
     [Fact]
     public async Task SendJsonAsync_Should_Throw_When_Request_Is_Null()
     {
-        using var client = CreateClient(new HttpResponseMessage(HttpStatusCode.OK));
+        var client = CreateClient(new HttpResponseMessage(HttpStatusCode.OK));
 
         var act = async () => await client.SendJsonAsync<SampleDto>(null!, TestContext.Current.CancellationToken);
 

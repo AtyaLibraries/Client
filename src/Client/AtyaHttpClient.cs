@@ -14,7 +14,7 @@ namespace Atya.Http.Client;
 /// <summary>
 /// Sends HTTP requests and returns Atya result values instead of throwing for non-success HTTP responses.
 /// </summary>
-public sealed class AtyaHttpClient : IDisposable
+public sealed class AtyaHttpClient
 {
     private readonly HttpClient _httpClient;
     private readonly AtyaHttpClientOptions _options;
@@ -84,14 +84,6 @@ public sealed class AtyaHttpClient : IDisposable
         }
 
         return Result.Success(value);
-    }
-
-    /// <summary>
-    /// Releases the underlying <see cref="HttpClient"/>.
-    /// </summary>
-    public void Dispose()
-    {
-        _httpClient.Dispose();
     }
 
     private async Task<Error> CreateErrorAsync(HttpResponseMessage response, CancellationToken cancellationToken)
