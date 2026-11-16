@@ -4,9 +4,9 @@
     "net10.0": {
       "Atya.Errors.ProblemDetails": {
         "type": "Direct",
-        "requested": "[1.1.0, )",
-        "resolved": "1.1.0",
-        "contentHash": "jgdO+M4DSrOzjAcWsiNfV1tVomihHIISm2jof2RvvXD9qBCbdCQ71IsldCC/Rk+rp4T2rdb+Wg364FqbKTuSCg==",
+        "requested": "[1.1.1, )",
+        "resolved": "1.1.1",
+        "contentHash": "+8XXhDcabBO7ofoKWb3sWeymzDtZYG+puk+C1vD+V5NuO2nqaKbVwiXZla8jED8IRcuMXxMDIGC2GTkLB5Ge6A==",
         "dependencies": {
           "Atya.Errors.Exceptions": "1.0.0",
           "Atya.Foundation.Guards": "1.0.0",
