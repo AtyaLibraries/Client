@@ -102,7 +102,7 @@
       "Atya.Http.Client": {
         "type": "Project",
         "dependencies": {
-          "Atya.Errors.ProblemDetails": "[1.1.0, )",
+          "Atya.Errors.ProblemDetails": "[1.1.1, )",
           "Atya.Foundation.Guards": "[1.0.2, )",
           "Atya.Foundation.Results": "[1.1.0, )",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "[10.0.15, )",
@@ -111,9 +111,9 @@
       },
       "Atya.Errors.ProblemDetails": {
         "type": "CentralTransitive",
-        "requested": "[1.1.0, )",
-        "resolved": "1.1.0",
-        "contentHash": "jgdO+M4DSrOzjAcWsiNfV1tVomihHIISm2jof2RvvXD9qBCbdCQ71IsldCC/Rk+rp4T2rdb+Wg364FqbKTuSCg==",
+        "requested": "[1.1.1, )",
+        "resolved": "1.1.1",
+        "contentHash": "+8XXhDcabBO7ofoKWb3sWeymzDtZYG+puk+C1vD+V5NuO2nqaKbVwiXZla8jED8IRcuMXxMDIGC2GTkLB5Ge6A==",
         "dependencies": {
           "Atya.Errors.Exceptions": "1.0.0",
           "Atya.Foundation.Guards": "1.0.0",
